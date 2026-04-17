@@ -1,9 +1,226 @@
-Çalışma 1
-https://docs.google.com/spreadsheets/d/17slNFXMLmai3oOIGC3Di7m0yxffVLxghXphKYbhkmnk/edit?usp=sharing
+Gemini
+Google Sheets'i HTML'e Dönüştürme
+Yeni sohbet
+Öğelerim
+Not defterleri
 
-Çalışma 2
-https://docs.google.com/spreadsheets/d/1GZDzQMBeL_x2OL5_Z4MtK8jWzIpSHmvtRdwdK0TaRCM/edit?usp=sharing
+Rapor Hazırlama Kılavuzu 2021
+
+Foundations of Statistical Analysis and SPSS Data Management
+Yeni not defteri
+Gem'ler
+Sohbetler
+İstatistiksel Analiz Rehberi Oluşturma
+Sabitlenmiş sohbet
+Data Journalism Course Design
+Sabitlenmiş sohbet
+AKTS Anketi Google Forms Uyarlaması
+Sabitlenmiş sohbet
+Google Sheets'i HTML'e Dönüştürme
+Veri Gazeteciliği Uygulama Önerileri
+Opera VPN Pro Çalışmama Sorunu Çözümü
+Veri Gazeteciliği: Veri Temizleme Uygulamaları
+Fren Pedalı Boşalması: Nedenleri ve Çözümleri
+MBTI Testi Yorumlama ve Anlamlandırma
+Videoları Ücretsiz İndirme Yöntemleri
+Python Kütüphane Kurulumu ve Uyarılar
+Google Eğitimci Sertifikası: Akademik Değeri
+Duyusal ve Sezgisel Kişilik Testi Yorumu
+Atatürk'ten Eğitim Üzerine Söz
+"Tatlı Yorgunluk Vesselam" Kullanımı
+2026 Sonbahar "Ayırma" İhtimalleri
+Otizm Şüphesi Olan Çocuğa Kriz Anında Yaklaşım
+
+Ayarlar ve yardım
+Gemini ile sohbet
+Çalışma 1 https://docs.google.com/spreadsheets/d/17slNFXMLmai3oOIGC3Di7m0yxffVLxghXphKYbhkmnk/edit?usp=sharing Çalışma 2 https://docs.google.com/spreadsheets/d/1GZDzQMBeL_x2OL5_Z4MtK8jWzIpSHmvtRdwdK0TaRCM/edit?usp=sharing bunu githubda yyın layabileceğim html sayfasına cevir
+
+HTML dosyanız (GitHub'da yayınlanmaya hazır) oluşturuldu:
+HTML simgesi
+ index 
+HTML
+
+Bu dosya, doğrudan verdiğiniz linkleri (CSV export üzerinden) okur. Böylece Google E-Tablolarınızda bir değişiklik yaptığınızda, web sayfanız da otomatik olarak güncellenir.
+
+GitHub'da Nasıl Yayınlarsınız? (GitHub Pages)
+GitHub'a Giriş Yapın ve Yeni Bir Depo (Repository) Oluşturun:
+
+GitHub profilinize gidin ve "New" butonuna tıklayarak yeni bir repository oluşturun (örneğin adını calisma-verileri koyabilirsiniz).
+
+Depoyu Public (Herkese açık) olarak seçtiğinizden emin olun.
+
+Dosyayı Yükleyin:
+
+Depoyu oluşturduktan sonra ekranda çıkan "uploading an existing file" (var olan bir dosyayı yükle) linkine tıklayın.
+
+Yukarıdan indirdiğiniz index.html dosyasını buraya sürükleyip bırakın ve "Commit changes" diyerek kaydedin.
+
+GitHub Pages'i Aktif Edin:
+
+Deponuzun sağ üst kısmındaki "Settings" (Ayarlar) sekmesine tıklayın.
+
+Sol menüden "Pages" kısmına gelin.
+
+"Build and deployment" altındaki Source kısmında "Deploy from a branch" seçeneğini bırakın.
+
+Branch kısmında None yazan yere tıklayıp main (veya master) dalını seçin ve Save (Kaydet) butonuna basın.
+
+Yaklaşık 1-2 dakika içerisinde sayfanız yayına girecektir. Ekranın üst kısmında oluşacak olan https://kullaniciadiniz.github.io/calisma-verileri/ benzeri linkten tablolarınızı canlı olarak görüntüleyebilirsiniz.
+
+(Not: Sayfanın verileri başarıyla çekebilmesi için Google E-Tablolarınızın paylaşım ayarlarının "Bağlantıya sahip olan herkes görüntüleyebilir" şeklinde ayarlanmış olması gerekmektedir.)
 
 
 
 
+
+Gemini bir yapay zeka modeli olduğu için hata yapabilir.
+
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çalışma Verileri Tablosu</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Papa Parse for reading CSV from Google Sheets dynamically -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        body { 
+            background-color: #f8f9fa; 
+            padding-top: 2rem; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .header-title {
+            color: #2c3e50;
+            font-weight: 700;
+            border-bottom: 2px solid #3498db;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        .table-container { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            margin-bottom: 3rem; 
+            overflow-x: auto; 
+        }
+        .loading { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100px; 
+        }
+        table th {
+            background-color: #34495e !important;
+            color: white !important;
+            white-space: nowrap;
+        }
+        table td {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="header-title">Proje Veri Panosu</h1>
+            <p class="text-muted mt-2">Bu sayfa Google Sheets verilerini canlı olarak çeker.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mb-3 text-secondary">📄 Çalışma 1</h3>
+                <div class="table-container" id="container1">
+                    <div class="loading">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Yükleniyor...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <h3 class="mb-3 text-secondary">📄 Çalışma 2</h3>
+                <div class="table-container" id="container2">
+                    <div class="loading">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Yükleniyor...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="text-center mt-5 mb-3 text-muted">
+            <small>GitHub Pages üzerinden yayınlanmıştır.</small>
+        </footer>
+    </div>
+
+    <script>
+        // Google Sheets ID'leri ve CSV Export linkleri
+        const sheet1Url = 'https://docs.google.com/spreadsheets/d/17slNFXMLmai3oOIGC3Di7m0yxffVLxghXphKYbhkmnk/export?format=csv';
+        const sheet2Url = 'https://docs.google.com/spreadsheets/d/1GZDzQMBeL_x2OL5_Z4MtK8jWzIpSHmvtRdwdK0TaRCM/export?format=csv';
+
+        function loadSheet(url, containerId) {
+            Papa.parse(url, {
+                download: true,
+                header: false,
+                complete: function(results) {
+                    const data = results.data;
+                    if (data && data.length > 0 && data[0].length > 0) {
+                        renderTable(data, containerId);
+                    } else {
+                        document.getElementById(containerId).innerHTML = '<div class="alert alert-warning">Tabloda veri bulunamadı.</div>';
+                    }
+                },
+                error: function(error) {
+                    document.getElementById(containerId).innerHTML = `
+                        <div class="alert alert-danger">
+                            <h5>Hata: Veri çekilemedi.</h5>
+                            <p>Lütfen Google Tablonuzun sağ üst köşesindeki <strong>Paylaş</strong> butonuna tıklayıp, erişim iznini <strong>"Bağlantıya sahip olan herkes"</strong> olarak ayarladığınızdan emin olun.</p>
+                        </div>`;
+                }
+            });
+        }
+
+        function renderTable(data, containerId) {
+            let html = '<table class="table table-striped table-hover table-bordered mb-0">';
+            
+            if (data.length > 0) {
+                // Sütun başlıkları
+                html += '<thead><tr>';
+                data[0].forEach(cell => {
+                    html += `<th>${cell || '-'}</th>`;
+                });
+                html += '</tr></thead><tbody>';
+                
+                // Satır verileri
+                for (let i = 1; i < data.length; i++) {
+                    // Boş satırları atla
+                    if (data[i].length === 1 && (data[i][0] === "" || data[i][0] === null)) continue;
+                    
+                    html += '<tr>';
+                    data[i].forEach(cell => {
+                        html += `<td>${cell || ''}</td>`;
+                    });
+                    html += '</tr>';
+                }
+                html += '</tbody>';
+            }
+            html += '</table>';
+            document.getElementById(containerId).innerHTML = html;
+        }
+
+        // Sayfa yüklendiğinde verileri çekmeye başla
+        document.addEventListener("DOMContentLoaded", function() {
+            loadSheet(sheet1Url, 'container1');
+            loadSheet(sheet2Url, 'container2');
+        });
+    </script>
+</body>
+</html>
+index.html
+index.html görüntüleniyor.
